@@ -19,7 +19,7 @@ void *my_malloc(size_t block_size) {
   char *data;
   if (tmp == NULL) {
     data = (char *)sbrk(block_size + sizeof(struct free_list));
-    if (data == NULL) {
+    if (data == (void *)-1) {
       return NULL;
     }
     metadata.prev = &root;
@@ -40,7 +40,7 @@ void *my_malloc(size_t block_size) {
       tmp = tmp->next;
     }
     data = (char *)sbrk(block_size + sizeof(struct free_list));
-    if (data == NULL) {
+    if (data == (void *)-1) {
       return NULL;
     }
     metadata.data = data + sizeof(struct free_list);
