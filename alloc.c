@@ -69,6 +69,9 @@ void my_free(void *ptr) {
     struct free_list *metadata_prev = metadata->prev;
     metadata_prev->size += (metadata->size + sizeof(struct free_list));
     metadata_prev->next = metadata->next;
+    if (metadata->next != NULL) {
+      metadata->next->prev = metadata_prev;
+    }
     metadata = metadata_prev;
   }
   metadata->used = 0;
