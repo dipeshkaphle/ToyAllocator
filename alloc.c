@@ -13,9 +13,12 @@ struct free_list {
 void *my_malloc(size_t block_size) {
   static struct free_list root = {
       .size = 0, .used = 1, .next = NULL, .prev = NULL, .data = NULL};
-  block_size = block_size % sizeof(void *) == 0
-                   ? block_size
-                   : ((block_size / sizeof(void *)) + 1) * sizeof(void *);
+	if(block_size!=0)
+		block_size = block_size % sizeof(void *) == 0
+										 ? block_size
+										 : ((block_size / sizeof(void *)) + 1) * sizeof(void *);
+	else
+		block_size = sizeof(void*);
   struct free_list *tmp = (&root)->next;
   struct free_list metadata = {
       .size = block_size, .used = 1, .next = NULL, .prev = NULL, .data = NULL};
